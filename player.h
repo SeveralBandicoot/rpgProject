@@ -14,31 +14,38 @@ class player {
         maxHitPts = currentHitPts;
     }
     void getHealth() {
-
+      cout << maxHealth;
     }
 
     void getDurabilityPts() {
 
     }
 
-    void getMaxHitPts() {
-
+    int getMaxHitPts() {
+      return maxHitPts;
     }
 
     int addHealth(int currentHealth) {
       maxHealth += currentHealth;
+      return currentHealth;
     }
 
     int addDurabilityPts(int currentDurabilty) {
-      maxDurabilityPts += currentDurabilty;      
+      maxDurabilityPts += currentDurabilty;     
+      return currentDurabilty; 
     }
 
     int addMaxHitPts(int currentHitPts) {
       maxHitPts += currentHitPts;
+      return currentHitPts;
+    }
+
+    int decreaseHealth(int maxHitPts) {
+      maxHealth -= maxHitPts;
     }
 
     void displayStats() {
-      cout << "HEALTHPTS: " << maxHealth << "\nARMORPTS: " << maxDurabilityPts << "\nDMGPTS: " << maxHitPts;
+      cout << "PLAYER STATS:\nHEALTHPTS: " << maxHealth << "\nARMORPTS: " << maxDurabilityPts << "\nDMGPTS: " << maxHitPts << endl;
     }
 
 
