@@ -13,12 +13,12 @@ class player {
         maxDurabilityPts = currentDurability;
         maxHitPts = currentHitPts;
     }
-    void getHealth() {
-      cout << maxHealth;
+    int getHealth() {
+      return maxHealth;
     }
 
-    void getDurabilityPts() {
-
+    int getDurabilityPts() {
+      return maxDurabilityPts;
     }
 
     int getMaxHitPts() {

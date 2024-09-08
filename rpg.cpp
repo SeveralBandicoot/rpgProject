@@ -5,13 +5,13 @@
 #include <vector>
 #include <algorithm>
 
-#include "player.h"
+#include "player.h" 
 
 using namespace std;
 
 void prepPhase(player &user);
 void battlePhase(player &user);
-void gameEnd();
+void gameEnd(player &user, player &enemy);
 void randomCase(int &randomNum);
 int main() {
   player user(12, 4, 9);
@@ -21,7 +21,6 @@ int main() {
   for (int i = 0; i < 2; i++) {
     user.displayStats();
     prepPhase(user);
-    user.displayStats();
     cout << "====================\n";
   }
 
@@ -38,11 +37,12 @@ void battlePhase(player &user) {
   player enemy(16, 12, 9);
 
   while (winCase == false) {
+
     user.displayStats();
     cout << "\nENEMY STATS:\nHEALTH: ";
-    enemy.getHealth();
+    cout << enemy.getHealth();
 
-    cout << "\n\nYou approached an enemy! Choose your action:\n1.) ATTACK\n2.) DEFEND\n3.) HEAL\n\n";
+    cout << "\n\nYou approached an enemy! Choose your action:\n1.) ATTACK\n2.) DEFEND\n";
     cin >> playerChoice;
     if (playerChoice == 1) {
       cout << "\nYou choose to attack!\n";
@@ -52,14 +52,45 @@ void battlePhase(player &user) {
       }
       randomCase(randomNum);
       if (randomNum == 0) {
-        cout << "\nIt hit!\n";
+        cout << "\nThe attack hit the enemy!\n";
         enemy.decreaseHealth(user.getMaxHitPts());
-        enemy.getHealth();
+        cout << "\nENEMY STATS:\nHEALTH: ";
+        cout << enemy.getHealth();
       } else {
         cout << "\nIt missed!\n";
       }
-    } 
+    } else if (playerChoice == 2) {
+      cout << "\nYou choose to defend!\n";
+      cout << "Your defense is up " << user.getDurabilityPts() << " points!";
+      user.addHealth(user.getDurabilityPts());
+    }
+
+     if (enemy.getHealth() <= 0) {
+      winCase = true;
+    }
+
+    cout << "\n====================\n";
+
+    cout << "\nIt's the enemy's turn!\n";
+    sleep(2);
+    cout << "\nThe enemy attacks!\n";
+    randomCase(randomNum);
+
+    if (randomNum == 0) {
+      cout << "\nThe attack hit you!\n";
+      user.decreaseHealth(enemy.getMaxHitPts());
+    } else {
+      cout << "\nThe creature misses!\n";
+    }
+
+    cout << "\n====================\n";
+
+    if (user.getHealth() <= 0) {
+      winCase = true;
+    }
+
   }
+  gameEnd(user, enemy);
 }
 
 void prepPhase(player &user) {
@@ -67,22 +98,18 @@ void prepPhase(player &user) {
 
   cout << "\n\nChoose which attributes to add to before battle (you get two attributes to choose from +3)\n";
 
-
   cin >> choice;
 
-    if (choice == 1) {
-      user.addHealth(3);
-    } else if (choice == 2) {
-      user.addDurabilityPts(3);
-    } else if (choice == 3) {
-      user.addMaxHitPts(3);
-    } else {
-      cout << "Input Invalid, please try again:\n";
-    }
+  (choice == 1) ? void(user.addHealth(3)) :
+    (choice == 2) ? void(user.addDurabilityPts(3)) :
+      (choice == 3) ? void(user.addMaxHitPts(3)) :
+        void(cout << "Input Invalid, please try again:\n");
 }
 
-void gameEnd() {
-
+void gameEnd(player &user, player &enemy) {
+  (user.getHealth() <= 0) ? void(cout << "\nGAME OVER enemy wins\n") :
+    (enemy.getHealth() <= 0) ? void(cout << "\nCONGRATS you won!\n") :
+      void("\nIt's a tie!\n");
 }
 
 void randomCase(int &randomNum) {
